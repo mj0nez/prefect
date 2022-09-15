@@ -56,15 +56,18 @@ def inject_client(fn):
 
     @wraps(fn)
     async def with_injected_client(*args, **kwargs):
+        import prefect.context
+
         client = None
+        flow_run_ctx = prefect.context.FlowRunContext.get()
+        task_run_ctx = prefect.context.TaskRunContext.get()
 
         if "client" in kwargs and kwargs["client"] is not None:
             client = kwargs["client"]
             client_context = asyncnullcontext()
-        else:
-            kwargs.pop("client", None)  # Remove null values
-            client_context = get_client()
-
+        elif flow_run_ctx is not None or task_run_ctx is not None:
+            client = (flow_run_ctx or task_run_ctx).client
+            client_context = asyncnullcontext()
         async with client_context as client:
             kwargs.setdefault("client", client)
             return await fn(*args, **kwargs)
