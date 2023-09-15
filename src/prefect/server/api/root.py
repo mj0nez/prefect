@@ -33,3 +33,9 @@ async def perform_readiness_check(
         status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
         content={"message": "Database is not available"},
     )
+
+
+@router.get("/metrics")
+async def hello_2():
+    """Say hello!"""
+    return "Hello metrics ....👋"
