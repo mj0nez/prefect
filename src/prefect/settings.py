@@ -1309,6 +1309,10 @@ PREFECT_EXPERIMENTAL_WARN_WORKSPACE_DASHBOARD = Setting(bool, default=False)
 Whether or not to warn when the experimental workspace dashboard is enabled.
 """
 
+PREFECT_METRICS_SAMPLE_RATE = Setting(float, default=5)
+"""
+The number of seconds to wait before collecting new metrics.
+"""
 
 # Deprecated settings ------------------------------------------------------------------
 

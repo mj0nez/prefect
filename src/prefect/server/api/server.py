@@ -484,6 +484,8 @@ def create_app(
                 services.flow_run_notifications.FlowRunNotifications()
             )
 
+        service_instances.append(services.metrics.FlowRunNotifications())
+
         loop = asyncio.get_running_loop()
 
         app.state.services = {
